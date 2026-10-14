@@ -1,50 +1,60 @@
-# Awesome-High-Performance-Production-Inference-Engines
+# ⚡ Awesome-High-Performance-Production-Inference-Engines 🚀
 
-[![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
+<p align="center">
+  <img src="assets/banner.svg" alt="Awesome High-Performance Production Inference Engines Banner" width="100%">
+</p>
 
-> **Curated directory of industry-leading SaaS platforms and open-source GitHub projects for high-performance LLM production inference engines, KV cache optimizations, disaggregated prefill/decode, continuous batching, and high-throughput GPU serving infrastructure.**
+<p align="center">
+  <a href="https://github.com/ishandutta2007/Awesome-Awesome-Awesome"><img src="https://img.shields.io/badge/Awesome-%E2%9C%94-blueviolet?style=flat-square&logo=github" alt="Awesome"/></a><a href="https://discord.gg/jc4xtF58Ve"><img src="https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white" alt="Discord" /></a>
+  <a href="https://github.com/ishandutta2007/Awesome-Awesome-Awesome"><img src="https://awesome.re/badge.svg" alt="Awesome"></a>
+  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>
+  <a href="http://makeapullrequest.com"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs Welcome"></a>
+  <a href="https://github.com/ishandutta2007"><img alt="GitHub followers" src="https://img.shields.io/github/followers/ishandutta2007?label=Follow" /></a>
+</p>
 
-*Last updated: October 2026*
+> 💡 **Curated directory of industry-leading SaaS platforms and open-source GitHub projects for high-performance LLM production inference engines, KV cache optimizations, disaggregated prefill/decode, continuous batching, and high-throughput GPU serving infrastructure.**
+
+*📅 Last updated: October 2026*
 
 ---
 
-## Overview & Architecture Highlights
+## 🏛️ Overview & Architecture Highlights
 
 Serving Large Language Models (LLMs) and multimodal foundation models in production requires specialized inference engines designed to maximize token throughput (tokens/second), minimize time-to-first-token (TTFT) and inter-token latency (ITL), and saturate accelerator utilization (NVIDIA Hopper/Blackwell, AMD Instinct, Apple Silicon, and modern server CPUs).
 
 Key production architectural paradigms tracked in this repository:
-- **KV Cache Optimizations**: PagedAttention (vLLM), RadixAttention with variable-length prefix caching (SGLang), and FP8/FP4 quantized KV caching.
-- **Prefill/Decode Disaggregation**: Decoupling compute-heavy prompt prefilling from memory-bandwidth-bound autoregressive decoding across dedicated GPU clusters.
-- **Continuous / In-Flight Batching**: Dynamically injecting newly arriving requests at iteration boundaries to eliminate idle execution slots.
-- **Speculative Decoding & Jump-Forward Generation**: Draft-target speculative execution (EAGLE-3, Medusa) and jump-forward grammar scheduling for structured JSON/regex/tool-call generation.
-- **Heterogeneous Hardware Backends**: Bare-metal CUDA/Triton kernels, ROCm HIP, Metal Performance Shaders (MPS), AVX-512/AMX CPU engines, and TPU runtime support.
+- 🧠 **KV Cache Optimizations**: PagedAttention (vLLM), RadixAttention with variable-length prefix caching (SGLang), and FP8/FP4 quantized KV caching.
+- 🔀 **Prefill/Decode Disaggregation**: Decoupling compute-heavy prompt prefilling from memory-bandwidth-bound autoregressive decoding across dedicated GPU clusters.
+- ⚡ **Continuous / In-Flight Batching**: Dynamically injecting newly arriving requests at iteration boundaries to eliminate idle execution slots.
+- 🎯 **Speculative Decoding & Jump-Forward Generation**: Draft-target speculative execution (EAGLE-3, Medusa) and jump-forward grammar scheduling for structured JSON/regex/tool-call generation.
+- 💻 **Heterogeneous Hardware Backends**: Bare-metal CUDA/Triton kernels, ROCm HIP, Metal Performance Shaders (MPS), AVX-512/AMX CPU engines, and TPU runtime support.
 
 ---
 
-## Table of Contents
+## 📑 Table of Contents
 
-- [Sector Overview & Market Dynamics](#sector-overview--market-dynamics)
-- [SaaS & Hosted Inference Platforms](#saas--hosted-inference-platforms)
-- [Open-Source GitHub Projects](#open-source-github-projects)
-- [Framework Selection Guide](#framework-selection-guide)
-- [How to Contribute](#how-to-contribute)
-- [Disclaimer](#disclaimer)
+- [📊 Sector Overview & Market Dynamics](#-sector-overview--market-dynamics)
+- [☁️ SaaS & Hosted Inference Platforms](#️-saas--hosted-inference-platforms)
+- [🔓 Open-Source GitHub Projects](#-open-source-github-projects)
+- [🧭 Framework Selection Guide](#-framework-selection-guide)
+- [🤝 How to Contribute](#-how-to-contribute)
+- [⭐ Star History](#-star-history)
+- [💖 Support](#-support)
+- [📜 Disclaimer](#-disclaimer)
 
 ---
 
-## Sector Overview & Market Dynamics
+## 📊 Sector Overview & Market Dynamics
 
 The global AI inference market has reached an estimated valuation of **$100B–$125B**, driven by the enterprise shift from initial foundation model pre-training to full-scale continuous inference execution. The sector is **moderately fragmented** rather than a winner-take-all monopoly: while hyperscalers and primary silicon vendors dominate foundational hardware and core runtimes, specialized inference providers, orchestration layers, and open-source engines aggressively compete and differentiate on latency, memory bandwidth, prefix cache hit rates, cost-per-token, and data sovereignty.
 
 ---
 
-## SaaS & Hosted Inference Platforms
+## ☁️ SaaS & Hosted Inference Platforms
 
 The table below benchmarks enterprise SaaS and hosted managed platforms for production LLM serving. Sorted descending by company valuation / market capitalization.
 
-| Platform | Company Valuation / Market Cap | Pricing (Starting Tiers) | Free Tier Limits / Free Trial | Key Capabilities & Architecture |
+| Platform | 🏢 Company Valuation / Market Cap | 💰 Pricing (Starting Tiers) | 🎁 Free Tier Limits / Free Trial | 🛠️ Key Capabilities & Architecture |
 | :--- | :--- | :--- | :--- | :--- |
 | **[NVIDIA Dynamo / NIM](https://developer.nvidia.com/dynamo)** | ~$5.3T–$5.6T (Market Cap) | $1.00/GPU-hr (Cloud Marketplace) or $4,500/GPU/yr (NVIDIA AI Enterprise license) | Free evaluation tier via NVIDIA Developer Program with 1,000 free inference API credits; max rate limit capped at 40 RPM | Datacenter-scale distributed inference serving framework. Disaggregated prefill/decode, KV cache offloading, and dynamic GPU scheduling optimized for Blackwell and Hopper architectures. |
 | **[Fireworks AI](https://fireworks.ai/)** | ~$17.5B–$18.0B (Valuation) | $0.20 per 1M tokens (Llama 3.1 8B text inference) / $0.0002 per step (image generation) | $1.00 free one-time signup developer credit (approx. 1M–5M tokens on lightweight models, no expiry); up to $50 credit via partner developer programs (valid 90 days) | Ultra-low latency inference platform with function calling, structured generation, custom LoRA deployment, and hand-tuned CUDA/Triton kernels. |
@@ -54,11 +64,11 @@ The table below benchmarks enterprise SaaS and hosted managed platforms for prod
 
 ---
 
-## Open-Source GitHub Projects
+## 🔓 Open-Source GitHub Projects
 
 The following active open-source projects represent the state-of-the-art in self-hosted LLM serving, local edge inference, KV cache optimization, and embedding pipelines. Sorted descending by GitHub star count.
 
-| Project | Stars | Primary Architecture & Key Features | License |
+| Project | ⭐ Stars | 🚀 Primary Architecture & Key Features | 📜 License |
 | :--- | :--- | :--- | :--- |
 | **[Ollama](https://github.com/ollama/ollama)** | [![Stars](https://img.shields.io/github/stars/ollama/ollama?style=social&color=white)](https://github.com/ollama/ollama/stargazers) | **The simplest out-of-the-box local model serving daemon.** Bundles model management, Modelfile packaging, OpenAI-compatible REST endpoints, and automated multi-GPU/CPU offloading across macOS, Linux, and Windows. | MIT |
 | **[llama.cpp](https://github.com/ggml-org/llama.cpp)** | [![Stars](https://img.shields.io/github/stars/ggml-org/llama.cpp?style=social&color=white)](https://github.com/ggml-org/llama.cpp/stargazers) | **Universal edge and desktop inference with zero external dependencies.** Pure C/C++ supporting GGUF quantization (Q4_K_M, IQ4_XS, IQ3_S), AVX2/AVX-512, CUDA, ROCm, Metal MPS, Vulkan, and OpenCL across edge, mobile, and server hardware. | MIT |
@@ -77,21 +87,21 @@ The following active open-source projects represent the state-of-the-art in self
 
 ---
 
-### Additional Specialized Open-Source Tools & Libraries
+### 📦 Additional Specialized Open-Source Tools & Libraries
 
-- **[Rapid-MLX](https://pypi.org/project/rapid-mlx/)** — Accessible Apple Silicon native local inference engine built on Apple MLX with one-command Claude Code CLI integration and OpenAI-compatible server.
-- **[tei-serving](https://pypi.org/project/tei-serving/)** — Config-driven launcher for Hugging Face Text Embeddings Inference (TEI) with YAML validation and dynamic batching parameters.
-- **[inferna](https://pypi.org/project/inferna/)** — Multimodal inference wrapper integrating llama.cpp, whisper.cpp, and stable-diffusion.cpp via unified Python API and CLI.
-- **[gks](https://pypi.org/project/gks/)** — Lightweight unified toolkit for GGUF model execution, local OpenAI-compatible endpoint hosting, and metadata inspection.
-- **[gguf-cpp](https://pypi.org/project/gguf-cpp/)** — C++ GGUF model toolkit featuring server runtime, diffusion pipelines, and custom quantization scripts.
-- **[rapidspeech-cuda](https://pypi.org/project/rapidspeech-cuda/)** — High-throughput CUDA-accelerated ASR and TTS serving with GGUF quantization and Voice Activity Detection (VAD).
-- **[OpenLLaVA](https://huggingface.co/Openllava)** — Framework for injecting vision capabilities into Hugging Face LLMs with unified serving workflows.
+- 🍏 **[Rapid-MLX](https://pypi.org/project/rapid-mlx/)** — Accessible Apple Silicon native local inference engine built on Apple MLX with one-command Claude Code CLI integration and OpenAI-compatible server.
+- ⚙️ **[tei-serving](https://pypi.org/project/tei-serving/)** — Config-driven launcher for Hugging Face Text Embeddings Inference (TEI) with YAML validation and dynamic batching parameters.
+- 🎙️ **[inferna](https://pypi.org/project/inferna/)** — Multimodal inference wrapper integrating llama.cpp, whisper.cpp, and stable-diffusion.cpp via unified Python API and CLI.
+- 🧰 **[gks](https://pypi.org/project/gks/)** — Lightweight unified toolkit for GGUF model execution, local OpenAI-compatible endpoint hosting, and metadata inspection.
+- 🔧 **[gguf-cpp](https://pypi.org/project/gguf-cpp/)** — C++ GGUF model toolkit featuring server runtime, diffusion pipelines, and custom quantization scripts.
+- 🔊 **[rapidspeech-cuda](https://pypi.org/project/rapidspeech-cuda/)** — High-throughput CUDA-accelerated ASR and TTS serving with GGUF quantization and Voice Activity Detection (VAD).
+- 👁️ **[OpenLLaVA](https://huggingface.co/Openllava)** — Framework for injecting vision capabilities into Hugging Face LLMs with unified serving workflows.
 
 ---
 
-## Framework Selection Guide
+## 🧭 Framework Selection Guide
 
-| Workload Characteristic | Recommended Engine / Framework | Key Decision Factor |
+| Workload Characteristic | 🎯 Recommended Engine / Framework | 💡 Key Decision Factor |
 | :--- | :--- | :--- |
 | **High-Concurrency Multi-User APIs** | **vLLM** | Mature continuous batching, chunked prefill, broad ecosystem integration, multi-LoRA support. |
 | **Multi-Turn Chat, Agents & RAG** | **SGLang** | RadixAttention delivers up to 71% prefill token savings; jump-forward grammar decoding for structured JSON/tools. |
@@ -102,20 +112,37 @@ The following active open-source projects represent the state-of-the-art in self
 
 ---
 
-## How to Contribute
+## 🤝 How to Contribute
 
-Contributions are welcome! To propose additions or updates:
+Contributions are warmly welcome! To propose additions or updates:
 
-1. Fork this repository.
-2. Create a feature branch (`git checkout -b feature/add-engine`).
-3. Add your entry following the established table schema and factual benchmarking style.
-4. Verify all links and badges render properly.
-5. Submit a descriptive Pull Request.
+1. 🍴 Fork this repository.
+2. 🌿 Create a feature branch (`git checkout -b feature/add-engine`).
+3. 📝 Add your entry following the established table schema and factual benchmarking style.
+4. 🔍 Verify all links, images, and badges render properly.
+5. 🚀 Submit a descriptive Pull Request.
 
 ---
 
-## Disclaimer
+##  Star History
+[![Star History Chart](https://star-history.dera.page/svg?repos=ishandutta2007/Awesome-High-Performance-Production-Inference-Engines&type=date&legend=top-left)](https://star-history.dera.page/#ishandutta2007/Awesome-High-Performance-Production-Inference-Engines&type=date&legend=top-left)
 
-- This repository is a community-curated directory intended for research, architectural comparison, and benchmarking.
-- Model performance, memory usage, and throughput metrics vary depending on hardware architectures (GPU/CPU/NPU), model parameter scale, quantization bitwidths, and context length distribution. Benchmark against your specific production workload before deploying.
-- All trademarks and brand names belong to their respective holders.
+---
+
+## 💖 Support
+
+Thank you for exploring and using **Awesome-High-Performance-Production-Inference-Engines**!
+
+If you find this curated directory useful for your research, team, or production infrastructure:
+- ⭐ **Star this repository** on GitHub to help others discover it.
+- 🍴 **Fork and contribute** updates or new state-of-the-art inference engines.
+- 📢 **Share** with colleagues and AI engineering communities.
+- ☕ **Sponsor / Buy me a coffee**: You can support ongoing maintenance via the [GitHub Sponsors Dashboard](https://github.com/sponsors/ishandutta2007).
+
+---
+
+## 📜 Disclaimer
+
+- 📌 This repository is a community-curated directory intended for research, architectural comparison, and benchmarking.
+- ⚠️ Model performance, memory usage, and throughput metrics vary depending on hardware architectures (GPU/CPU/NPU), model parameter scale, quantization bitwidths, and context length distribution. Benchmark against your specific production workload before deploying.
+- 🏷️ All trademarks and brand names belong to their respective holders.
