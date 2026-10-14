@@ -66,9 +66,9 @@ The table below benchmarks enterprise SaaS and hosted managed platforms for prod
 
 ## 🔓 Open-Source GitHub Projects
 
-The following active open-source projects represent the state-of-the-art in self-hosted LLM serving, local edge inference, KV cache optimization, and embedding pipelines. Sorted descending by GitHub star count.
+The following active open-source projects represent the state-of-the-art in self-hosted LLM serving, local edge inference, KV cache optimization, and embedding pipelines. Sorted descending by GitHub Stars_Count.
 
-| Project | ⭐ Stars | 🚀 Primary Architecture & Key Features | 📜 License |
+| Project | ⭐ GitHub_Stars | 🚀 Primary Architecture & Key Features | 📜 License |
 | :--- | :--- | :--- | :--- |
 | **[Ollama](https://github.com/ollama/ollama)** | [![Stars](https://img.shields.io/github/stars/ollama/ollama?style=social&color=white)](https://github.com/ollama/ollama/stargazers) | **The simplest out-of-the-box local model serving daemon.** Bundles model management, Modelfile packaging, OpenAI-compatible REST endpoints, and automated multi-GPU/CPU offloading across macOS, Linux, and Windows. | MIT |
 | **[llama.cpp](https://github.com/ggml-org/llama.cpp)** | [![Stars](https://img.shields.io/github/stars/ggml-org/llama.cpp?style=social&color=white)](https://github.com/ggml-org/llama.cpp/stargazers) | **Universal edge and desktop inference with zero external dependencies.** Pure C/C++ supporting GGUF quantization (Q4_K_M, IQ4_XS, IQ3_S), AVX2/AVX-512, CUDA, ROCm, Metal MPS, Vulkan, and OpenCL across edge, mobile, and server hardware. | MIT |
