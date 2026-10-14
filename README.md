@@ -1,211 +1,121 @@
 # Awesome-High-Performance-Production-Inference-Engines
 
-## Top High-Performance Production Inference Engines Ecosystem
+[![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
 
+> **Curated directory of industry-leading SaaS platforms and open-source GitHub projects for high-performance LLM production inference engines, KV cache optimizations, disaggregated prefill/decode, continuous batching, and high-throughput GPU serving infrastructure.**
 
-
-**Curated List of SaaS Products & Open-Source GitHub Projects**  
-
-*Focused on LLM Serving, KV Cache Optimization & Multi-Model Orchestration*  
-
-**Last updated: October 2026**
-
-
-
-This repository tracks notable **SaaS platforms** and **open-source projects** for **High-Performance Production Inference Engines**. These tools enable organizations to serve large language models at scale—optimizing throughput, reducing latency, and maximizing GPU utilization for agentic workloads, RAG pipelines, and high-concurrency APIs.
-
-
-
-**Examples** include vLLM, SGLang, TensorRT-LLM, TokenSpeed, Rapid-MLX, SIE, and llama.cpp (the category leaders).
-
-
-
-**Open-source emphasis**: This section is heavily expanded with every major active project for self-hosting, PagedAttention, RadixAttention, and open inference serving—ideal for ML platform engineers, AI infrastructure teams, and developers seeking transparent, vendor-independent LLM serving.
-
-
-
-Contributions welcome! Open a PR to add/update entries. Keep descriptions factual and link to official sites.
-
-
-
-## Table of Contents
-
-- [SaaS/Hosted Platforms](#saas-hosted-platforms)
-
-- [Open-Source GitHub Projects](#open-source-github-projects)
-
-- [How to Contribute](#how-to-contribute)
-
-- [Disclaimer](#disclaimer)
-
-
-
-## SaaS/Hosted Platforms
-
-
-
-- **[NVIDIA Dynamo](https://developer.nvidia.com/dynamo)**  
-
-  Datacenter-scale distributed inference serving framework. Features disaggregated prefill/decode, KV cache offloading, and dynamic GPU scheduling for maximum throughput on NVIDIA Blackwell and Hopper.
-
-
-
-- **[Fireworks AI](https://fireworks.ai/)**  
-
-  Fast inference platform with function calling, structured generation, and custom model deployment. Pay-per-token pricing with optimized kernels.
-
-
-
-- **[Together AI](https://www.together.ai/)**  
-
-  Full-stack generative AI platform with managed inference for open models. Features instant deployment, auto-scaling, and pay-per-token pricing.
-
-
-
-- **[Baseten](https://baseten.co/)**  
-
-  ML infrastructure platform for model deployment and inference. Features Truss for model packaging and autoscaling inference.
-
-
-
-- **[Modal](https://modal.com/)**  
-
-  Serverless GPU platform with native inference support. Scales to 50,000+ concurrent containers with sub-second cold starts.
-
-
-
-## Open-Source GitHub Projects
-
-
-
-- **[vLLM](https://github.com/vllm-project/vllm)**  
-
-  **The production default for high-concurrency LLM serving** (Apache-2.0). **The most widely deployed open-source inference engine**—powers deployments at DigitalOcean, and ranked first across all 12 providers on Artificial Analysis for Qwen 3.5 397B . Core innovations: **PagedAttention** for efficient KV cache management, **continuous batching** for throughput, and **prefill/decode disaggregation** for optimized resource allocation. Recent optimizations include **aggressive kernel fusion** reducing per-layer kernel count from ~33 to ~10 for DeepSeek V3.2, **custom EAGLE3 draft models** for speculative decoding, and **Sleep Mode** releasing up to 95%+ VRAM without stopping the server . Best for high-throughput APIs, multi-user environments, and RAG workloads .
-
-
-
-- **[SGLang](https://github.com/sgl-project/sglang)**  
-
-  **The fastest engine for chat, agents, and structured generation** (Apache-2.0). **Powering over 400,000 GPUs worldwide** with trillions of tokens generated daily . **RadixAttention** organizes KV cache as a radix tree enabling **variable-length prefix sharing** at any token boundary—71% prefill token reduction vs. vLLM's 44% on RAG workloads . **Native structured generation** integrated at the scheduling layer with **jump-forward optimization** achieving **4.9x–7.0x speedup** on JSON/regex/tool-call workloads . Features prefill-decode disaggregation, speculative decoding, multi-LoRA batching, and broad hardware support (NVIDIA, AMD, Intel, TPU, Ascend) . Adopted by xAI, LinkedIn, Cursor, Oracle Cloud, Google Cloud, Microsoft Azure, AWS, and major universities .
-
-
-
-- **[TensorRT-LLM](https://github.com/NVIDIA/TensorRT-LLM)**  
-
-  **Maximum single-replica throughput on NVIDIA hardware** (Apache-2.0). **The canonical Blackwell inference path** with FP4/FP8 native support, hand-tuned kernels (FlashAttention 4, Hopper TMA+WGMMA, Blackwell tcgen05), and in-flight batching . **1.5–2× faster than vLLM at peak single-replica throughput** on Hopper GPUs . Day-0 support for frontier models including DeepSeek-V4, GPT-OSS-120B, and Llama 4 Maverick . **Trade-offs**: engine compilation friction (each model + precision + batch-size bucket needs a plan), NVIDIA-only lock-in, and slower support for new architectures . Best when the model is stable and maximum throughput is required.
-
-
-
-- **[TokenSpeed](https://github.com/lightseekorg/tokenspeed)**  
-
-  **Speed-of-light inference designed for agentic workloads** (open-source, PyTorch Foundation). **First engine to separate control plane (C++ finite-state machine) from execution plane (Python)**—enforces safe KV resource reuse at compile time via type system . Features **one of the fastest MLA implementations on Blackwell**, pluggable kernel registry, and **TensorRT-LLM-level performance with vLLM-level usability** . Hits **580 TPS on Qwen3.5-397B** for agentic workloads . Backed by non-profit LightSeek Foundation—"the Switzerland of open-source LLM inference engines" . **Pareto-competitive with TensorRT-LLM** on Kimi K2.5/B200 .
-
-
-
-- **[llama.cpp](https://github.com/ggml-org/llama.cpp)**  
-
-  **Universal edge and desktop inference** (MIT). Runs everywhere: CPU (AVX2/AVX512/NEON), CUDA, ROCm, Metal, Vulkan, OpenCL. Single binary across desktop, server, and edge . **GGUF format** with diverse quantization options (Q4_K_M, IQ4_XS, IQ3_S). **Mature for small models** (Qwen3-4B, Llama 3.2-1B, Phi-4-mini). **Default for any per-user, per-machine, edge or desktop scenario**—not for high-concurrency clusters .
-
-
-
-- **[Rapid-MLX](https://pypi.org/project/rapid-mlx/)**  
-
-  **Apple Silicon native inference** (open-source). **The most accessible local inference for Mac**—`brew install rapid-mlx` or guided installer detects RAM and recommends starter model . OpenAI-compatible server on localhost:8000 with one-command Claude Code integration (`rapid-mlx launch claude-code`). **$0 per token, nothing leaves your Mac** . Vision/audio/video/diffusion as opt-in extras. **Note**: Cursor requires public HTTPS tunnel (not fully local) .
-
-
-
-- **[SIE (Superlinked Inference Engine)](https://github.com/superlinked/sie)**  
-
-  **Unified inference for embeddings, reranking, and extraction** (Apache-2.0). **85+ models across three functions**: `encode` (dense/sparse/multi-vector/vision embeddings), `score` (cross-encoder reranking), `extract` (zero-shot NER via GLiNER) . **Hot-swappable models** with on-demand loading and LRU eviction. **Ships full production stack**: load-balancing router, KEDA autoscaling (scale to zero), Grafana dashboards, Terraform for GKE/EKS . OpenAI-compatible `/v1/embeddings` endpoint. **The most complete open-source alternative to commercial embedding/reranking services**.
-
-
-
-- **[vLLM-Omni](https://github.com/vllm-project/vllm-omni)**  
-
-  **Omni-modality extension of vLLM** (pre-release). Extends vLLM beyond text to **image, audio, video, and action data processing** with non-autoregressive architectures (Diffusion Transformers) and heterogeneous outputs . Supports Qwen3-Omni, MiniCPM-o 4.5, Cosmos3, TTS models (Qwen3-TTS, IndexTTS 2.5), diffusion models (MiniMax H3, LTX-2.5, SANA-Video), and robot-policy models (π0, GR00T-N1.7) . **The most ambitious open-source omni-modality serving framework**.
-
-
-
-- **[AMD PACE](https://github.com/amd/AMD-PACE)**  
-
-  **High-performance inference server for AMD EPYC CPUs that's graduated to agentic orchestrator** (open-source). Now uses **LangGraph as native orchestration layer**—executes entire agentic graphs end-to-end with deterministic replay for benchmarking . Features **flexible deployment**: orchestrate on CPU while offloading GPU inference to AMD Radeon/Instinct running vLLM . **Deterministic agent execution and benchmarking** with first-class replay mode . **The most CPU-focused open-source agentic inference orchestrator**.
-
-
-
-- **[tei-serving](https://pypi.org/project/tei-serving/)**  
-
-  **Config-driven launcher for Hugging Face Text Embeddings Inference (TEI)** (open-source). Wraps TEI router with YAML config validation and typed settings→CLI conversion . Supports embedder and reranker configs with batching parameters. **The most accessible TEI deployment tool** for embedding/reranking pipelines.
-
-
-
-- **[inferna](https://pypi.org/project/inferna/)**  
-
-  **Multimodal Python inference library** (open-source). Wraps llama.cpp, whisper.cpp, and stable-diffusion.cpp for **speech recognition, TTS, image generation, and LLM inference** through unified Python API and CLI . `inferna transcribe`, `inferna tts`, `inferna sd txt2img` . **The most comprehensive local multimodal inference library**.
-
-
-
-### Additional Strong Open-Source Options
-
-
-
-- **[gks](https://pypi.org/project/gks/)** — Unified package for GGUF models with OpenAI-compatible LLM server, diffusion generator, and metadata editor (open-source) .
-
-- **[gguf-cpp](https://pypi.org/project/gguf-cpp/)** — GGUF model toolkit with LLM server, diffusion, and quantizer (open-source) .
-
-- **[rapidspeech-cuda](https://pypi.org/project/rapidspeech-cuda/)** — ASR (offline/streaming) and TTS (MeloTTS/OpenVoice2) with GGUF quantization and VAD support (open-source) .
-
-- **[OpenLLaVA](https://huggingface.co/Openllava)** — Framework for injecting vision into any HuggingFace LLM with training, inference, and serving pipeline (open-source) .
-
-- Community **n8n** workflows for inference engine health monitoring and model routing automation.
-
-
-
-**Frameworks for building custom systems**: Combine **vLLM** for high-concurrency text serving with **SGLang** for agent/structured workloads, **TensorRT-LLM** for maximum single-replica throughput on stable models, **SIE** for embeddings/reranking, and **llama.cpp** or **Rapid-MLX** for edge/desktop—creating a comprehensive production inference stack.
-
-
-
-## How to Contribute
-
-
-
-1. Fork the repo.
-
-2. Add/edit entries in `README.md` (follow existing format).
-
-3. Include: name, link, 1–2 sentence description, and whether it's SaaS or open-source.
-
-4. Submit PR with a short explanation.
-
-
-
-Star the repo if you find it useful!
-
-
-
-## Disclaimer
-
-
-
-- This is a **community-curated** list — not exhaustive and not an endorsement.
-
-- Production inference engines handling user prompts and model outputs must comply with data protection regulations (GDPR, CCPA, etc.) and provider licensing terms.
-
-- **Framework selection depends on workload shape.** vLLM is the production default for high-concurrency APIs . SGLang is fastest for chat, agents, and RAG with prefix reuse . TensorRT-LLM delivers maximum single-replica throughput on NVIDIA but requires engine compilation and locks you to NVIDIA hardware . **No single engine dominates across all criteria**—the 2026 guide recommends vLLM for multi-user, SGLang for chat/agents, and TensorRT-LLM for max NVIDIA performance .
-
-- **SGLang's RadixAttention is a structural advantage for agent workloads.** Variable-length prefix sharing at any token boundary delivers **71% prefill token reduction** vs. vLLM's 44% on RAG workloads with 60% document overlap . For multi-turn chat and tool-calling agents, this translates directly to throughput and cost.
-
-- **Structured generation is a first-class differentiator.** SGLang's jump-forward optimization skips deterministic tokens (braces, quotes, field names) achieving **4.9x–7.0x speedup** on JSON/regex/tool-call workloads . This is not post-hoc logit masking—it's integrated at the scheduling layer.
-
-- **TokenSpeed's control/execution plane separation is novel.** C++ finite-state machine for scheduling with type-enforced KV resource safety, Python for execution—combining correctness guarantees with iteration velocity . Backed by non-profit foundation—neutral across vendors.
-
-- Self-hosted open-source solutions require proper GPU provisioning, kernel compilation for TensorRT-LLM, and ongoing maintenance. Inference engines are performance-critical infrastructure—benchmark against your specific workload before production deployment.
-
-
+*Last updated: October 2026*
 
 ---
 
+## Overview & Architecture Highlights
 
+Serving Large Language Models (LLMs) and multimodal foundation models in production requires specialized inference engines designed to maximize token throughput (tokens/second), minimize time-to-first-token (TTFT) and inter-token latency (ITL), and saturate accelerator utilization (NVIDIA Hopper/Blackwell, AMD Instinct, Apple Silicon, and modern server CPUs).
 
-**Made for ML platform engineers, AI infrastructure teams, and developers building transparent production inference solutions.**  
+Key production architectural paradigms tracked in this repository:
+- **KV Cache Optimizations**: PagedAttention (vLLM), RadixAttention with variable-length prefix caching (SGLang), and FP8/FP4 quantized KV caching.
+- **Prefill/Decode Disaggregation**: Decoupling compute-heavy prompt prefilling from memory-bandwidth-bound autoregressive decoding across dedicated GPU clusters.
+- **Continuous / In-Flight Batching**: Dynamically injecting newly arriving requests at iteration boundaries to eliminate idle execution slots.
+- **Speculative Decoding & Jump-Forward Generation**: Draft-target speculative execution (EAGLE-3, Medusa) and jump-forward grammar scheduling for structured JSON/regex/tool-call generation.
+- **Heterogeneous Hardware Backends**: Bare-metal CUDA/Triton kernels, ROCm HIP, Metal Performance Shaders (MPS), AVX-512/AMX CPU engines, and TPU runtime support.
 
-Let's make High-Performance Production Inference Engines more open, data-driven, and throughput-optimized.
+---
+
+## Table of Contents
+
+- [Sector Overview & Market Dynamics](#sector-overview--market-dynamics)
+- [SaaS & Hosted Inference Platforms](#saas--hosted-inference-platforms)
+- [Open-Source GitHub Projects](#open-source-github-projects)
+- [Framework Selection Guide](#framework-selection-guide)
+- [How to Contribute](#how-to-contribute)
+- [Disclaimer](#disclaimer)
+
+---
+
+## Sector Overview & Market Dynamics
+
+The global AI inference market has reached an estimated valuation of **$100B–$125B**, driven by the enterprise shift from initial foundation model pre-training to full-scale continuous inference execution. The sector is **moderately fragmented** rather than a winner-take-all monopoly: while hyperscalers and primary silicon vendors dominate foundational hardware and core runtimes, specialized inference providers, orchestration layers, and open-source engines aggressively compete and differentiate on latency, memory bandwidth, prefix cache hit rates, cost-per-token, and data sovereignty.
+
+---
+
+## SaaS & Hosted Inference Platforms
+
+The table below benchmarks enterprise SaaS and hosted managed platforms for production LLM serving. Sorted descending by company valuation / market capitalization.
+
+| Platform | Company Valuation / Market Cap | Pricing (Starting Tiers) | Free Tier Limits / Free Trial | Key Capabilities & Architecture |
+| :--- | :--- | :--- | :--- | :--- |
+| **[NVIDIA Dynamo / NIM](https://developer.nvidia.com/dynamo)** | ~$5.3T–$5.6T (Market Cap) | $1.00/GPU-hr (Cloud Marketplace) or $4,500/GPU/yr (NVIDIA AI Enterprise license) | Free evaluation tier via NVIDIA Developer Program with 1,000 free inference API credits; max rate limit capped at 40 RPM | Datacenter-scale distributed inference serving framework. Disaggregated prefill/decode, KV cache offloading, and dynamic GPU scheduling optimized for Blackwell and Hopper architectures. |
+| **[Fireworks AI](https://fireworks.ai/)** | ~$17.5B–$18.0B (Valuation) | $0.20 per 1M tokens (Llama 3.1 8B text inference) / $0.0002 per step (image generation) | $1.00 free one-time signup developer credit (approx. 1M–5M tokens on lightweight models, no expiry); up to $50 credit via partner developer programs (valid 90 days) | Ultra-low latency inference platform with function calling, structured generation, custom LoRA deployment, and hand-tuned CUDA/Triton kernels. |
+| **[Modal Labs](https://modal.com/)** | ~$15.75B (Valuation) | Starter plan pay-as-you-go: $0.000028/sec ($0.10/hr) CPU compute; $0.000553/sec ($1.99/hr) NVIDIA A100-40GB; Team plan base $250/mo | Starter Tier includes $30.00/month recurring free compute credits (resets monthly; credit card required for verification; standard concurrency caps) | Serverless containerized GPU infrastructure with sub-second cold starts, dynamic scale-to-zero, and multi-GPU cluster orchestration up to 50,000+ concurrent workers. |
+| **[Baseten](https://baseten.co/)** | ~$13.0B (Valuation) | Pay-as-you-go: $0.20 per 1M tokens (Model API 8B tier); dedicated GPU instances from $0.60/hr (A10G) to $4.26/hr (H100) | $30.00 one-time initial workspace signup credit for testing serverless Model APIs and dedicated GPU instances (no permanent free compute tier) | Production ML deployment and inference orchestration powered by open-source Truss. Features autoscaling, zero-downtime rollouts, and multi-cloud GPU routing. |
+| **[Together AI](https://www.together.ai/)** | ~$8.3B (Valuation) | Serverless API from $0.18 per 1M input tokens / $0.18 per 1M output tokens (Llama 3.1 8B); minimum initial account deposit of $15.00 | No permanent free tier or automatic trial credits; access requires a minimum $15.00 initial prepaid balance (eligible early-stage startups can apply for up to $50,000 in startup credits) | Full-stack generative AI platform with managed inference, fine-tuning, and dedicated GPU clusters across 100+ open-source models with sub-second response times. |
+
+---
+
+## Open-Source GitHub Projects
+
+The following active open-source projects represent the state-of-the-art in self-hosted LLM serving, local edge inference, KV cache optimization, and embedding pipelines. Sorted descending by GitHub star count.
+
+| Project | Stars | Primary Architecture & Key Features | License |
+| :--- | :--- | :--- | :--- |
+| **[Ollama](https://github.com/ollama/ollama)** | [![Stars](https://img.shields.io/github/stars/ollama/ollama?style=social&color=white)](https://github.com/ollama/ollama/stargazers) | **The simplest out-of-the-box local model serving daemon.** Bundles model management, Modelfile packaging, OpenAI-compatible REST endpoints, and automated multi-GPU/CPU offloading across macOS, Linux, and Windows. | MIT |
+| **[llama.cpp](https://github.com/ggml-org/llama.cpp)** | [![Stars](https://img.shields.io/github/stars/ggml-org/llama.cpp?style=social&color=white)](https://github.com/ggml-org/llama.cpp/stargazers) | **Universal edge and desktop inference with zero external dependencies.** Pure C/C++ supporting GGUF quantization (Q4_K_M, IQ4_XS, IQ3_S), AVX2/AVX-512, CUDA, ROCm, Metal MPS, Vulkan, and OpenCL across edge, mobile, and server hardware. | MIT |
+| **[vLLM](https://github.com/vllm-project/vllm)** | [![Stars](https://img.shields.io/github/stars/vllm-project/vllm?style=social&color=white)](https://github.com/vllm-project/vllm/stargazers) | **The production standard for high-throughput concurrent LLM serving.** Invented **PagedAttention** for near-zero memory waste in KV cache. Features continuous batching, prefill/decode disaggregation, chunked prefill, speculative decoding (EAGLE-3), Sleep Mode memory release, and multi-LoRA batching. | Apache-2.0 |
+| **[SGLang](https://github.com/sgl-project/sglang)** | [![Stars](https://img.shields.io/github/stars/sgl-project/sglang?style=social&color=white)](https://github.com/sgl-project/sglang/stargazers) | **Fastest engine for multi-turn chat, autonomous agents, and structured generation.** Introduces **RadixAttention** (hierarchical prefix caching reducing prefill tokens by up to 71% on RAG workloads) and scheduler-level **jump-forward decoding** (up to 7x faster on JSON/regex grammar constraints). Adopted across xAI, Cursor, and major public clouds. | Apache-2.0 |
+| **[TensorRT-LLM](https://github.com/NVIDIA/TensorRT-LLM)** | [![Stars](https://img.shields.io/github/stars/NVIDIA/TensorRT-LLM?style=social&color=white)](https://github.com/NVIDIA/TensorRT-LLM/stargazers) | **Maximum single-replica throughput on NVIDIA GPUs.** Hand-tuned kernels for Hopper (TMA+WGMMA) and Blackwell (tcgen05, native FP4/FP8), FlashAttention-4, in-flight batching, and KV cache quantization. Ideal for static, peak-throughput enterprise deployments. | Apache-2.0 |
+| **[Triton Inference Server](https://github.com/triton-inference-server/server)** | [![Stars](https://img.shields.io/github/stars/triton-inference-server/server?style=social&color=white)](https://github.com/triton-inference-server/server/stargazers) | **Enterprise multi-model inference serving system.** Serves LLMs, vision, audio, and tabular models simultaneously with dynamic batching, concurrent model execution, model ensembling, and integration with TensorRT, ONNX, and vLLM backends. | BSD-3-Clause |
+| **[Text Generation Inference (TGI)](https://github.com/huggingface/text-generation-inference)** | [![Stars](https://img.shields.io/github/stars/huggingface/text-generation-inference?style=social&color=white)](https://github.com/huggingface/text-generation-inference/stargazers) | **Hugging Face production LLM serving stack.** Features Tensor Parallelism, FlashAttention-2/3, Paged Attention, token streaming via SSE, watermarking, dynamic batching, and native safetensors weights loading. | Apache-2.0 |
+| **[Xinference](https://github.com/xorbitsai/inference)** | [![Stars](https://img.shields.io/github/stars/xorbitsai/inference?style=social&color=white)](https://github.com/xorbitsai/inference/stargazers) | **Unified distributed inference framework for LLMs, speech, and multimodal models.** Supports seamless orchestration across vLLM, llama.cpp, and SGLang backends with cluster management and OpenAI-compatible APIs. | Apache-2.0 |
+| **[vLLM-Omni](https://github.com/vllm-project/vllm-omni)** | [![Stars](https://img.shields.io/github/stars/vllm-project/vllm-omni?style=social&color=white)](https://github.com/vllm-project/vllm-omni/stargazers) | **Omni-modality serving extension for vLLM.** Expands high-throughput batching to non-autoregressive multimodal architectures (Diffusion Transformers, Speech-to-Speech, Vision-Language-Action models, and robot policies). | Apache-2.0 |
+| **[Text Embeddings Inference (TEI)](https://github.com/huggingface/text-embeddings-inference)** | [![Stars](https://img.shields.io/github/stars/huggingface/text-embeddings-inference?style=social&color=white)](https://github.com/huggingface/text-embeddings-inference/stargazers) | **High-performance embedding and reranking engine.** Blazing-fast Rust-based server implementing FlashAttention and token-level dynamic batching for Sentence Transformers, dense/sparse embeddings, and cross-encoders. | Apache-2.0 |
+| **[ExLlamaV2](https://github.com/turboderp/exllamav2)** | [![Stars](https://img.shields.io/github/stars/turboderp/exllamav2?style=social&color=white)](https://github.com/turboderp/exllamav2/stargazers) | **Ultra-fast local inference library for consumer and workstation GPUs.** Features custom EXL2 quantization (variable bitrate per weight tensor) delivering exceptional inference speeds and low VRAM footprints. | MIT |
+| **[SIE (Superlinked Inference Engine)](https://github.com/superlinked/sie)** | [![Stars](https://img.shields.io/github/stars/superlinked/sie?style=social&color=white)](https://github.com/superlinked/sie/stargazers) | **Unified inference engine for embeddings, reranking, and extraction.** Supports 85+ models across `encode`, `score` (cross-encoder), and `extract` (zero-shot NER via GLiNER) with KEDA scale-to-zero, LRU model eviction, and Grafana monitoring. | Apache-2.0 |
+| **[TokenSpeed](https://github.com/lightseekorg/tokenspeed)** | [![Stars](https://img.shields.io/github/stars/lightseekorg/tokenspeed?style=social&color=white)](https://github.com/lightseekorg/tokenspeed/stargazers) | **Speed-of-light inference engine designed for agentic workloads.** Separates control plane (C++ finite-state machine) from execution plane (Python), enforcing type-safe KV resource reuse at compile time with Pareto-competitive Blackwell throughput. | Apache-2.0 |
+| **[AMD PACE](https://github.com/amd/AMD-PACE)** | [![Stars](https://img.shields.io/github/stars/amd/AMD-PACE?style=social&color=white)](https://github.com/amd/AMD-PACE/stargazers) | **High-performance agentic orchestrator and inference server for AMD EPYC CPUs.** Integrates LangGraph as native orchestration layer with deterministic execution replay and hybrid CPU-orchestration / GPU-inference offloading. | MIT |
+
+---
+
+### Additional Specialized Open-Source Tools & Libraries
+
+- **[Rapid-MLX](https://pypi.org/project/rapid-mlx/)** — Accessible Apple Silicon native local inference engine built on Apple MLX with one-command Claude Code CLI integration and OpenAI-compatible server.
+- **[tei-serving](https://pypi.org/project/tei-serving/)** — Config-driven launcher for Hugging Face Text Embeddings Inference (TEI) with YAML validation and dynamic batching parameters.
+- **[inferna](https://pypi.org/project/inferna/)** — Multimodal inference wrapper integrating llama.cpp, whisper.cpp, and stable-diffusion.cpp via unified Python API and CLI.
+- **[gks](https://pypi.org/project/gks/)** — Lightweight unified toolkit for GGUF model execution, local OpenAI-compatible endpoint hosting, and metadata inspection.
+- **[gguf-cpp](https://pypi.org/project/gguf-cpp/)** — C++ GGUF model toolkit featuring server runtime, diffusion pipelines, and custom quantization scripts.
+- **[rapidspeech-cuda](https://pypi.org/project/rapidspeech-cuda/)** — High-throughput CUDA-accelerated ASR and TTS serving with GGUF quantization and Voice Activity Detection (VAD).
+- **[OpenLLaVA](https://huggingface.co/Openllava)** — Framework for injecting vision capabilities into Hugging Face LLMs with unified serving workflows.
+
+---
+
+## Framework Selection Guide
+
+| Workload Characteristic | Recommended Engine / Framework | Key Decision Factor |
+| :--- | :--- | :--- |
+| **High-Concurrency Multi-User APIs** | **vLLM** | Mature continuous batching, chunked prefill, broad ecosystem integration, multi-LoRA support. |
+| **Multi-Turn Chat, Agents & RAG** | **SGLang** | RadixAttention delivers up to 71% prefill token savings; jump-forward grammar decoding for structured JSON/tools. |
+| **Max Peak Throughput (Stable Model, NVIDIA)** | **TensorRT-LLM** | 1.5–2x faster single-replica throughput via hand-tuned Blackwell/Hopper kernels and FP4/FP8 optimizations. |
+| **Enterprise Heterogeneous Multi-Model Serving** | **Triton Inference Server** | Unified concurrent serving across LLMs, vision, audio, and classical ML backends with dynamic batching. |
+| **Edge, Local Desktop, & Consumer Hardware** | **llama.cpp / Ollama** | Universal GGUF format, zero external dependencies, CPU/Metal/CUDA portability. |
+| **Dedicated Embeddings & Semantic Search** | **TEI / SIE** | Token-level dynamic batching, cross-encoder reranking, and zero-shot NER extraction. |
+
+---
+
+## How to Contribute
+
+Contributions are welcome! To propose additions or updates:
+
+1. Fork this repository.
+2. Create a feature branch (`git checkout -b feature/add-engine`).
+3. Add your entry following the established table schema and factual benchmarking style.
+4. Verify all links and badges render properly.
+5. Submit a descriptive Pull Request.
+
+---
+
+## Disclaimer
+
+- This repository is a community-curated directory intended for research, architectural comparison, and benchmarking.
+- Model performance, memory usage, and throughput metrics vary depending on hardware architectures (GPU/CPU/NPU), model parameter scale, quantization bitwidths, and context length distribution. Benchmark against your specific production workload before deploying.
+- All trademarks and brand names belong to their respective holders.
